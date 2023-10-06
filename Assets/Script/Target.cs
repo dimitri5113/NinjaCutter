@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class Target : MonoBehaviour
@@ -11,6 +13,8 @@ public class Target : MonoBehaviour
     private float xSpawnPosition = 4f;
     private float ySpawnPosition = -3f;
 
+    private GameObject gameManager;
+
 
 
 
@@ -21,7 +25,7 @@ public class Target : MonoBehaviour
     targetRb.AddTorque(RandomTorque(), ForceMode.Impulse);
     // Pour eviter de spawn toujours au meme endroit on random position de l'objet
     transform.position = RandomPosition();
-
+    gameManager = GameObject.Find("Gamecontroller");
     }
 
     // Update is called once per frame
@@ -30,6 +34,17 @@ public class Target : MonoBehaviour
         
     }
     
+    private void OnMouseDown()
+    {
+        Destroy(gameObject);
+        gameManager.GetComponent<GameController>().UpdateScore(5);
+    
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy(gameObject);
+    }
+
     Vector3 RandomForce() 
     {
         return Vector3.up * Random.Range(minImpulse,maxImpulse);
@@ -41,5 +56,7 @@ public class Target : MonoBehaviour
     Vector3 RandomPosition() 
     {
         return new Vector3(Random.Range(-xSpawnPosition,xSpawnPosition),ySpawnPosition);
+
     }
+
 }
