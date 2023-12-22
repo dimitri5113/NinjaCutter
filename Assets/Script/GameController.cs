@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 public class GameController : MonoBehaviour
 {
     public List<GameObject> targets;
+    public GameObject mainCamera;
     public float spawnRate = 1f;
     private int score;
     public TextMeshProUGUI scoreText;
@@ -19,16 +20,21 @@ public class GameController : MonoBehaviour
     public int lifeAmount = 3;
     public int difficultyActuel=1;
     public float actualspawnRate;
+    public AudioSource audioSource;
+    public AudioClip[] audioClips;
 
 
     void Start()
     {
-       
-
+        audioSource = mainCamera.GetComponent<AudioSource>();
+        audioSource.clip = audioClips[0];
+        audioSource.Play();
     }
 
     public void StartGame(int difficulty)
     {   
+        audioSource.clip =audioClips[1];
+        audioSource.Play();
         isGameActive = true;
         score = 0;
         StartCoroutine(SpawnTarget());

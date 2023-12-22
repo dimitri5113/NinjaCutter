@@ -16,6 +16,8 @@ public class Target : MonoBehaviour
     public int scoreAmount;
     private GameObject gameManager;
     public ParticleSystem explosionParticle;
+    public AudioSource audioSource;
+    public AudioClip explosionSound;
 
 
 
@@ -27,11 +29,10 @@ public class Target : MonoBehaviour
     // Pour eviter de spawn toujours au meme endroit on random position de l'objet
     transform.position = RandomPosition();
     gameManager = GameObject.Find("Gamecontroller");
+    audioSource = GetComponentInChildren<AudioSource>();
+    audioSource.clip = explosionSound;
     }
-    //private void OnMouseDown()
-    //{
-        
-    //}
+   
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Trail")
@@ -50,7 +51,7 @@ public class Target : MonoBehaviour
             {
                 gameManager.GetComponent<GameController>().Life(lifeAmount);
             }
-           Destroy(gameObject);
+            Destroy(gameObject);
             Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
             
          }
